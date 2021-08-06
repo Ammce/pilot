@@ -1,10 +1,15 @@
 package service
 
-import "github.com/Ammce/pilot/entity"
+import (
+	"fmt"
+
+	"github.com/Ammce/pilot/entity"
+)
 
 type VideoService interface {
 	Save(entity.Video) entity.Video
 	FindAll() []entity.Video
+	FindById(Id *string) string
 }
 
 type videoService struct {
@@ -22,4 +27,13 @@ func (service *videoService) Save(video entity.Video) entity.Video {
 
 func (service *videoService) FindAll() []entity.Video {
 	return service.videos
+}
+
+func (service *videoService) FindById(Id *string) string {
+	fmt.Println("AMKO")
+	fmt.Println(service.videos)
+	for i := 0; i < len(service.videos); i++ {
+		fmt.Println(i)
+	}
+	return "Amel"
 }

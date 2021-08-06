@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"fmt"
-
 	"github.com/Ammce/pilot/entity"
 	"github.com/Ammce/pilot/service"
 	"github.com/gin-gonic/gin"
@@ -11,6 +9,7 @@ import (
 type VideoController interface {
 	FindAll() []entity.Video
 	Save(ctx *gin.Context) entity.Video
+	FindById(ctx *gin.Context) string
 }
 
 type controller struct {
@@ -30,6 +29,11 @@ func (c *controller) FindAll() []entity.Video {
 func (c *controller) Save(ctx *gin.Context) entity.Video {
 	var video entity.Video
 	ctx.BindJSON(&video)
-	fmt.Println(video)
+	c.service.Save(video)
 	return video
+}
+
+func (c *controller) FindById(ctx *gin.Context) string {
+	var Id string = "Hello"
+	return c.service.FindById(&Id)
 }

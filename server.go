@@ -22,5 +22,9 @@ func main() {
 		ctx.JSON(200, VideoController.Save(ctx))
 	})
 
+	server.GET("/a1", func(ctx *gin.Context) {
+		ctx.JSON(200, VideoController.FindById(ctx))
+	})
+
 	server.Run(":8080")
 }
