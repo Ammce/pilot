@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 
 	"github.com/Ammce/pilot/controller"
@@ -26,7 +27,7 @@ func main() {
 	setupLogOutpu()
 	server := gin.New()
 
-	server.Use(gin.Recovery(), middleware.Logger())
+	server.Use(gin.Recovery(), middleware.Logger(), middleware.BasicAuth())
 
 	server.GET("/posts", func(ctx *gin.Context) {
 		ctx.JSON(200, VideoController.FindAll())
@@ -38,7 +39,12 @@ func main() {
 	})
 
 	server.POST("/posts", func(ctx *gin.Context) {
-		ctx.JSON(200, VideoController.Save(ctx))
+		err := VideoController.Save(ctx)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{"message": "Post input is valid"})
+		}
 	})
 
 	server.Run(":8080")
